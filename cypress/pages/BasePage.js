@@ -1,7 +1,7 @@
 export default class BasePage {
   constructor(path = '/') {
     this.path = path;
-    this.baseUrl = '/';
+    this.baseUrl = '';
     this.url = `${this.baseUrl}${this.path}`;
   }
 

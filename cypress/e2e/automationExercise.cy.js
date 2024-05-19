@@ -9,9 +9,9 @@ import viewCartPage from '../pages/viewCartPage';
 describe('As an existing user, i should be able to place an order successfully', () => {
   before('Verify that the user is able to login', () => {
     new landingPage().goToLogin();
-
     new loginPage().assertPageUrl().loginAsAdminUser();
   });
+
   it('Sort by Prize', () => {
     const items = [];
 
