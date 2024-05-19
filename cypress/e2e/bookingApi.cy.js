@@ -11,24 +11,24 @@ const lcheckoutDate = randomDate();
 const newneeds = user.Description;
 
 describe('TestCases for Booking API collection', () => {
-    before('Generate access token for the Test suite', () => {
-      // Make a POST request to the authentication endpoint
-      cy.api({
-        body: {
-          password: Cypress.env('adminPassword'),
-          username: Cypress.env('adminUsername'),
-        },
-        failOnStatusCode: false,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        url: Cypress.env('apiBaseUrl') + '/auth',
-      }).then((response) => {
-        // Store the Bearer token in Cypress.env for later use
-        Cypress.env('bearerToken', response.body.token);
-      });
+  before('Generate access token for the Test suite', () => {
+    // Make a POST request to the authentication endpoint
+    cy.api({
+      body: {
+        password: Cypress.env('adminPassword'),
+        username: Cypress.env('adminUsername'),
+      },
+      failOnStatusCode: false,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      url: Cypress.env('apiBaseUrl') + '/auth',
+    }).then((response) => {
+      // Store the Bearer token in Cypress.env for later use
+      Cypress.env('bearerToken', response.body.token);
     });
+  });
 
 
   context('Different Testscenarios for Create Bookings Endpoint', () => {
