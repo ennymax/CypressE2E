@@ -1,0 +1,45 @@
+name: End-to-end tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          spec: |
+               cypress/e2e/providerAdminPortal/paCodeRequestErrorChecks.cy.js
+               cypress/e2e/providerAdminPortal/paCodeRequestForm.cy.js
+          headed: true
+        
+        env: 
+          #Admin Login Credential
+          CYPRESS_ADMIN_USERNAME_STAGING: ${{ secrets.ADMIN_USERNAME_STAGING}}
+          CYPRESS_ADMIN_PASSWORD_STAGING: ${{ secrets.ADMIN_PASSWORD_STAGING}}
+          
+          #Provider Portal Password
+          CYPRESS_PROVIDER_ADMIN_EMAIL: ${{ secrets.PROVIDER_ADMIN_EMAIL}}
+          CYPRESS_PROVIDER_ADMIN_PASSWORD: ${{ secrets.PROVIDER_ADMIN_PASSWORD}}
+
+          #Claim Examiner Login Credential
+          CYPRESS_CLAIM_EXAMINER_USERNAME: ${{ secrets.CLAIM_EXAMINER_USERNAME}}          
+          CYPRESS_CLAIM_EXAMINER_PASSWORD: ${{ secrets.CLAIM_EXAMINER_PASSWORD}}
+
+          #Enrollee Login Detail one
+          CYPRESS_ENROLLEE_USERNAME1: ${{ secrets.ENROLLEE_USERNAME1}}
+          CYPRESS_ENROLLEE_PASSWORD1: ${{ secrets.ENROLLEE_PASSWORD1}}
+
+          #Enrollee Login Details two
+          CYPRESS_ENROLLEE_USERNAME2: ${{ secrets.ENROLLEE_USERNAME2}}
+          CYPRESS_ENROLLEE_PASSWORD2: ${{ secrets.ENROLLEE_PASSWORD2}}
+
+          #MAILSAC API KEY
+          CYPRESS_MAILSAC_KEY: ${{ secrets.MAILSAC_KEY}}

@@ -1,0 +1,16 @@
+# ignore downloads directroy
+# ignore downloads directroy
+downloads
+
+# Ignore node_modules directory
+node_modules
+.vscode
+
+# Ignore .env file
+.env
+
+# Ignore .DS_Store
+**/.DS_Store
+
+# ignore screenshots directory
+screenshots
