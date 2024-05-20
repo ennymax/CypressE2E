@@ -14,12 +14,7 @@ module.exports = defineConfig({
     delay: 0,
     env: {
       ...process.env,
-      adminPassword: 'password123',
-      adminUsername: 'admin',
       apiBaseUrl: 'https://restful-booker.herokuapp.com',
-
-      password: '123456',
-      username: 'qat@mailinator.com',
     },
     experimentalStudio: true,
     failOnStatusCode: false,

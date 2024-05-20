@@ -12,7 +12,7 @@ describe('As an existing user, i should be able to place an order successfully',
     new loginPage().assertPageUrl().loginAsAdminUser();
   });
 
-  it('Sort by Prize', () => {
+  it('Sort by Product by Prize', () => {
     const items = [];
 
     cy.get('.features_items').scrollIntoView();
@@ -47,7 +47,6 @@ describe('As an existing user, i should be able to place an order successfully',
         items.sort((a, b) => a.price - b.price);
 
         console.log(items); // Output: sorted items by price
-        cy.log(items);
       });
   });
 

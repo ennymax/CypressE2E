@@ -29,7 +29,7 @@ export default class loginPage extends BasePage {
   }
 
   loginAsAdminUser() {
-    this.loginAs(Cypress.env('username'), Cypress.env('password'));
+    this.loginAs(Cypress.env('QAUSERNAME'),Cypress.env('QAPASSWORD'));
     return this;
   }
 

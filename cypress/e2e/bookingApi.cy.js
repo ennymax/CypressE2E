@@ -15,8 +15,8 @@ describe('TestCases for Booking API collection', () => {
     // Make a POST request to the authentication endpoint
     cy.api({
       body: {
-        password: Cypress.env('adminPassword'),
-        username: Cypress.env('adminUsername'),
+        password: Cypress.env('ADMINPASSWORD'),
+        username: Cypress.env('ADMINUSERNAME'),
       },
       failOnStatusCode: false,
       headers: {
