@@ -6,9 +6,6 @@ downloads
 node_modules
 .vscode
 
-# Ignore .env file
-.env
-
 # Ignore .DS_Store
 **/.DS_Store
 
