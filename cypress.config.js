@@ -3,31 +3,30 @@
 /* eslint n/no-process-env: 0 */
 
 const { defineConfig } = require('cypress');
-require('dotenv').config();
 
 module.exports = defineConfig({
   e2e: {
     animationDistanceThreshold: 5,
-    baseUrl: 'https://www.automationexercise.com',
+    baseUrl: 'https://app.mc2.fi',
     chromeWebSecurity: false,
-    defaultCommandTimeout: 10_000,
+    defaultCommandTimeout: 20_000,
     delay: 0,
-    env: {
-      ...process.env,
-      apiBaseUrl: 'https://restful-booker.herokuapp.com',
-    },
     experimentalStudio: true,
     failOnStatusCode: false,
     requestTimeout: 6_000,
     responseTimeout: 6_000,
     retries: { openMode: 0, runMode: 0 },
-    setupNodeEvents(on, _config) {},
+    setupNodeEvents(on, _config) {
+     
+    },
     snapshotOnly: true,
     testIsolation: false,
-    viewportHeight: 860,
-    viewportWidth: 1_220,
+    viewportHeight: 1080,
+    viewportWidth: 1920,
     waitForAnimations: true,
     watchForFileChanges: false,
+    numTestsKeptInMemory: 0,
+
   },
   projectId: 'o52xg2',
 });

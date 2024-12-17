@@ -25,7 +25,7 @@ Install Node.js and npm by downloading the installer from the official website: 
 2. execute this "npx cypress open" in the terminal of the  folder directory to open the cypress dasboard
 
 ## Usage
-To run the full regression test, locate the "runner.cy" file and click
+To run the test open terminal in the project driectory
 
 To run at the CLI use:
 
@@ -33,6 +33,3 @@ To run at the CLI use:
 npm run cy:run
 npx cypress open
 ```
-
-### Contributing
-Contributions to this project are welcome! Feel free to fork the repository, create feature branches, and submit pull requests. Follow the provided contribution guidelines to ensure smooth collaboration

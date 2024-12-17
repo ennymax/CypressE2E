@@ -3,109 +3,81 @@ Cypress.on('uncaught:exception', (error, runnable) => {
   return false;
 });
 
-// custom command to add product successfully
-Cypress.Commands.add('addProductToCart', (index) => {
-  cy.get('.product-image-wrapper').then(($items) => {
-    cy.wrap($items[index]).contains('Add to cart').click();
-  });
+Cypress.Commands.add(
+  'calculatePriceDeviation',
+  (actualPrice, expectedPrice) => {
+    // Ensure both actual and expected prices are numbers
+    if (Number.isNaN(actualPrice) || Number.isNaN(expectedPrice)) {
+      throw new TypeError('Both actualPrice and expectedPrice must be numbers');
+    }
+
+    // Calculate the deviation
+    const deviation =
+      Math.abs((actualPrice - expectedPrice) / expectedPrice) * 100;
+
+    // Return the deviation
+    return deviation;
+  },
+);
+
+Cypress.Commands.add('formatNumber', (number) => {
+  if (number === 0) return '0';
+
+  const absNumber = Math.abs(number);
+  let formattedNumber;
+
+  if (absNumber < 1_000) {
+    formattedNumber = number.toFixed(0); // No abbreviation
+  } else if (absNumber < 1_000_000) {
+    formattedNumber = (number / 1_000).toFixed(2) + 'K'; // Thousands
+  } else if (absNumber < 1_000_000_000) {
+    formattedNumber = (number / 1_000_000).toFixed(2) + 'M'; // Millions
+  } else {
+    formattedNumber = (number / 1_000_000_000).toFixed(2) + 'B'; // Billions
+  }
+
+  return formattedNumber;
 });
 
-Cypress.Commands.add(
-  'assertProductDetails',
-  (productId, productN, productP, productQ) => {
-    cy.get(`#product-${productId}`)
-      .then(($product) => {
-        const productName = $product
-          .find('.cart_description')
-          .find('a')
-          .text()
-          .trim();
-        const productPrice = $product
-          .find('.cart_price')
-          .find('p')
-          .text()
-          .trim();
-        const productQuantity = $product
-          .find('.cart_quantity')
-          .find('button')
-          .text()
-          .trim();
+Cypress.Commands.add('calculatePercentageValue', (baseValue, percentage) => {
+  // Remove % and convert to float
+  const percentValue = Number.parseFloat(percentage.replace('%', ''));
 
-        // Assert the product name
-        cy.wrap(productName).as('productName');
+  // Calculate actual value
+  const actualValue = baseValue + (baseValue * percentValue) / 100;
 
-        // Assert the product price
-        cy.wrap(productPrice).as('productPrice');
+  // Return the calculated value
+  return actualValue;
+});
 
-        // Assert the product quantity
-        cy.wrap(productQuantity).as('productQuantity');
-      })
-      .then(() => {
-        // Assert the product name
-        cy.get('@productName').should('equal', `${productN}`);
+Cypress.Commands.add('convertToNumber', (input) => {
+  cy.wrap(null).then(() => {
+    if (typeof input !== 'string') {
+      throw new TypeError('Input must be a string.');
+    }
 
-        // Assert the product price
-        cy.get('@productPrice').should('equal', `${productP}`);
+    let value = input.replace('$', '').replace(',', '').trim(); // Remove $, commas, and trim whitespace
+    let multiplier = 1;
 
-        // Assert the product quantity
-       //cy.get('@productQuantity').should('equal', `${productQ}`);
-      });
-  },
-);
+    // Determine the multiplier based on the abbreviation
+    if (value.endsWith('K')) {
+      multiplier = 1_000;
+      value = value.replace('K', '');
+    } else if (value.endsWith('M')) {
+      multiplier = 1_000_000;
+      value = value.replace('M', '');
+    } else if (value.endsWith('B')) {
+      multiplier = 1_000_000_000;
+      value = value.replace('B', '');
+    }
 
-// cypress/support/commands.js
-Cypress.Commands.add(
-  'validateBookingResponse',
-  (response, fname, lname, lprice, lcheckinDate, lcheckoutDate, newneeds) => {
-    // Assert response time is less than 1000 milliseconds
-    expect(response.body).to.have.property('firstname').that.equals(fname);
-    expect(response.body).to.have.property('lastname').that.equals(lname);
-    expect(response.body).to.have.property('totalprice').that.equals(lprice);
-    expect(response.body).to.have.property('depositpaid');
+    const number = Number.parseFloat(value);
 
-    // Assert properties of the 'bookingdates' object
-    expect(response.body).to.have.property('bookingdates');
-    expect(response.body.bookingdates)
-      .to.have.property('checkin')
-      .that.equals(lcheckinDate);
-    expect(response.body.bookingdates)
-      .to.have.property('checkout')
-      .that.equals(lcheckoutDate);
+    // If the result is not a valid number, throw an error
+    if (Number.isNaN(number)) {
+      throw new TypeError(`Invalid number: ${input}`);
+    }
 
-    // Assert additionalneeds property and the returned object
-    expect(response.body)
-      .to.have.property('additionalneeds')
-      .that.equals(newneeds);
-  },
-);
-
-Cypress.Commands.add(
-  'validateCreateBookingResponse',
-  (response, fname, lname, lprice, lcheckinDate, lcheckoutDate, newneeds) => {
-    // Assert response time is less than 1000 milliseconds
-    expect(response.body.booking)
-      .to.have.property('firstname')
-      .that.equals(fname);
-    expect(response.body.booking)
-      .to.have.property('lastname')
-      .that.equals(lname);
-    expect(response.body.booking)
-      .to.have.property('totalprice')
-      .that.equals(lprice);
-    expect(response.body.booking).to.have.property('depositpaid');
-
-    // Assert properties of the 'bookingdates' object
-    expect(response.body.booking).to.have.property('bookingdates');
-    expect(response.body.booking.bookingdates)
-      .to.have.property('checkin')
-      .that.equals(lcheckinDate);
-    expect(response.body.booking.bookingdates)
-      .to.have.property('checkout')
-      .that.equals(lcheckoutDate);
-
-    // Assert additionalneeds property and the returned object
-    expect(response.body.booking)
-      .to.have.property('additionalneeds')
-      .that.equals(newneeds);
-  },
-);
+    return number * multiplier;
+  });
+});

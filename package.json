@@ -2,6 +2,7 @@
   "author": "",
   "dependencies": {
     "cypress-plugin-api": "^2.11.1",
+    "cypress-real-events": "^1.13.0",
     "fs-extra": "^11.2.0",
     "nodemailer": "^6.9.8",
     "wait-until": "^0.0.2"
@@ -10,8 +11,9 @@
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
     "axios": "^1.6.5",
-    "cypress": "^13.6.2",
+    "cypress": "^13.16.1",
     "cypress-wait-until": "^3.0.1",
+    "cypress-xpath": "^2.0.1",
     "dotenv": "^16.4.1",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
