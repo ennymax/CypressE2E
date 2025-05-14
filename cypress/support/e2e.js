@@ -20,9 +20,8 @@
 import './commands';
 import 'cypress-plugin-api';
 import 'cypress-wait-until';
-import 'cypress-real-events/support';
-
 require('cypress-xpath');
+import 'cypress-real-events-v14';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

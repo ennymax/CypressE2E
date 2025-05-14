@@ -1,0 +1,19 @@
+image: cypress/browsers:node-20.14.0-chrome-126.0.6478.114-1-ff-127.0.1-edge-126.0.2592.61-1
+
+pipelines:
+  pull-requests:
+    "**":  # This will run the pipeline for any pull request to any branch
+      - step:
+          name: Setup and Run Cypress Tests
+          script:
+            # Notify that the pipeline has been triggered
+            - echo "This pull request triggered the pipeline!"
+            - export XDG_RUNTIME_DIR=/tmp/xdg
+            - mkdir -p /tmp/xdg
+
+            # Install dependencies
+            - npm ci
+            
+            # Run Cypress tests in Chrome
+            - npx cypress run --browser chrome --spec 'cypress/e2e/case/caseFormValidation.feature'
+            
